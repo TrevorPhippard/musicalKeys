@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+    <style>
+        #container {
+            padding: 5px;
+        }
+
+        .notes {
+            position: relative;
+            padding: 0 10px 10px;
+            border-top: 1px solid #888;
+            font-weight: bold;
+        }
+
+        .note {
+            margin: 10px 5px;
+            padding: 5px;
+            border: 1px solid #888;
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            text-align: center;
+            float: left;
+        }
+
+        small {
+            display: block;
+            font-size: 10px;
+            font-weight: normal;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="container">
+    </div>
+    <script>
+        'usestrict;'
+
+        window.onload = function () {
+
+            // more feq
+                // 'F6':    1396.91,
+                // 'F#6':   1479.98,
+                // 'G6':    1567.98,
+                // 'G#6':   1661.22,
+                // 'A6':    1760.00,
+                // 'A#6':   1864.66,
+                // 'B6':    1975.53
+
+            const NOTES = {
+                65: { 
+                    freq: 440.00,
+                    note:'A4'
+                 },
+                87: { 
+                    freq: 466.16,
+                    note: 'A#4'
+                 },
+                83: { 
+                    freq: 493.88,
+                    note:'B4'
+                 },
+                68: { 
+                    freq: 523.25,
+                    note:'C5'
+                 },
+                82: { 
+                    freq: 554.37,
+                    note:'C#5'
+                 },
+                70: { 
+                    freq: 587.33,
+                    note:'D5'
+                 },
+                84: { 
+                    freq: 622.25,
+                    note:'D#5'
+                 },
+                71: { 
+                    freq: 659.25,
+                    note:'E5'
+                 },
+                72: { 
+                    freq: 698.46,
+                    note:'F5'
+                 },
+                85: { 
+                    freq: 739.99,
+                    note:'F#5'
+                 },
+                74: { 
+                    freq: 783.99,
+                    note:'G5'
+                 },
+                73: { 
+                    freq: 830.61,
+                    note:'G#5'
+                 },
+                75: { 
+                    freq: 880.00,
+                    note:'A5'
+                 },
+                79: { 
+                    freq: 932.33,
+                    note:'A#5'
+                 },
+                76: { 
+                    freq: 987.77,
+                    note:'B5'
+                 },
+                186: { 
+                    freq: 1046.50,
+                    note:'C6'
+                 },
+                219: { 
+                    freq: 1108.73,
+                    note:'C#6'
+                 },
+                222: { 
+                    freq: 1174.66,
+                    note:'D6'
+                 },
+                221: { 
+                    freq: 1244.51,
+                    note:'D#6'
+                 },
+                220: { 
+                    freq: 1318.51,
+                    note:'E6'
+                 }
+            };
+
+            var ac = window.ac || window.webkitac;
+                ac = new AudioContext();
+
+            var init = () => {
+         
+                window.addEventListener("keydown", checkKey);
+                window.addEventListener("keyup", checkKey);
+            };
+
+            function setVolume(osc){
+                    amp = ac.createGain();
+                    amp.gain.value = 0.5;
+                    amp.connect(ac.createAnalyser());
+            }
+
+            function initAudio(note) {
+                console.log(note)
+
+                var osc = ac.createOscillator();
+                    osc.frequency.value = note.freq;
+                    osc.type = "sine";
+                    setVolume(osc)
+                    osc.connect(ac.destination);
+                    osc.start(0);
+                    return osc
+            };
+
+            function stopAudio(note) {
+                note.osc.stop();
+                note.osc.disconnect();
+                note.osc = null;
+                note.playing = false;
+            }
+
+            // check key and play / switch off oscs
+            var checkKey = (e) => {
+
+                var sound = NOTES[e.keyCode],
+                    eventType = e.type;
+
+                if (sound) {
+                    if (eventType === "keydown" && !sound.playing) {
+                        sound.playing = true;
+                        sound.osc = initAudio(sound);
+                        document.getElementById('container').innerHTML = sound.note
+                    } else if (eventType === "keyup" && sound.playing) {
+                       stopAudio(sound) 
+                    }
+                }
+            };
+            init();
+
+        }
+
+    </script>
+</body>
+
+</html>
