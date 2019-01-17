@@ -2,197 +2,562 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-
+    <meta charset="UTF-8" />
     <title>Document</title>
     <style>
-        #container {
-            padding: 5px;
-        }
+* {
+	font-family: 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
 
-        .notes {
-            position: relative;
-            padding: 0 10px 10px;
-            border-top: 1px solid #888;
-            font-weight: bold;
-        }
+body {
+	margin: 0;
+	padding: 50px;
+	background: #222;
+}
 
-        .note {
-            margin: 10px 5px;
-            padding: 5px;
-            border: 1px solid #888;
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            text-align: center;
-            float: left;
-        }
+select {
+	width: 452px;
+	margin: 6px 0;
+	padding: 6px;
+	color: #777;
+	border: 1px solid #000;
+	border-radius: 5px;
+	background: rgba(0, 0, 0, .2);
+	-webkit-box-shadow: inset 4px 6px 10px -4px rgba(0, 0, 0, .3), 0 1px 1px -1px rgba(255, 255, 255, .3);
+	box-shadow: inset 4px 6px 10px -4px rgba(0, 0, 0, .3), 0 1px 1px -1px rgba(255, 255, 255, .3);
+	text-shadow: #000 0 1px 5px;
+	text-shadow: #000 0 1px 5px;
+}
 
-        small {
-            display: block;
-            font-size: 10px;
-            font-weight: normal;
-        }
-    </style>
+ul {
+	padding-left: 0;
+}
 
+label {
+	padding-left: 4px;
+	color: #777;
+	border-radius: 5px;
+	text-shadow: #000 0 1px 5px;
+}
 
+.set {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 450px;
+	padding: 0;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.modal {
+	margin-top: 10px;
+}
+
+#keyboard {
+	display: block;
+	width: 100%;
+	height: 200px;
+	margin-top: 35px;
+	margin-bottom: 55px;
+}
+
+.ivory {
+	position: relative;
+	float: left;
+	list-style: none;
+	border-radius: 0 0 5px 5px;
+}
+
+.white {
+	width: 4em;
+	height: 14em;
+	border-left: 1px solid #333;
+	background: snow;
+    border-bottom: 5px solid #ddd;
+	text-shadow: 0 -2px #ddd;
+}
+
+.black {
+	z-index: 2;
+	width: 2em;
+	height: 7em;
+	margin: 0 0 0 -1em;
+	border: 1px solid #000;
+	background: #333;
+    border-bottom: 5px solid #000;
+	text-shadow: 0 -2px #000;
+}
+
+#a,
+#b,
+#d,
+#e,
+#g {
+	margin: 0 0 0 -16px;
+}
+
+.switch-title {
+	margin-right: 15px;
+}
+
+.switchBtn {
+	position: absolute;
+	display: inline-block;
+}
+
+.switch-title,
+.switchBtn label {
+	display: inline-block;
+	color: #777;
+	border-radius: 5px;
+	text-shadow: #000 0 1px 5px;
+}
+
+.switchBtn label {
+	padding: 6px;
+}
+
+.switchBtn input {
+	display: none;
+}
+
+.switchBtn input:checked+label {
+	color: #fff;
+	background-color: tomato;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.switchBtn label {
+	font-size: 14px;
+	float: left;
+	background: rgba(0, 0, 0, .2);
+	-webkit-box-shadow: inset 4px 6px 10px -4px rgba(0, 0, 0, .3), 0 1px 1px -1px rgba(255, 255, 255, .3);
+	box-shadow: inset 4px 6px 10px -4px rgba(0, 0, 0, .3), 0 1px 1px -1px rgba(255, 255, 255, .3);
+	text-shadow: #000 0 1px 5px;
+}
+
+.switchBtn label:first-of-type {
+	border-radius: 4px 0 0 4px;
+}
+
+.switchBtn label:last-of-type {
+	border-radius: 0 4px 4px 0;
+}
+
+.playBtn {
+	font-size: 25px;
+	position: relative;
+	display: block;
+	padding: 10px 40px;
+	-webkit-transition: all .1s;
+	-o-transition: all .1s;
+	transition: all .1s;
+	text-align: center;
+	text-decoration: none;
+	color: #fff;
+	border-bottom: 5px solid #bd3e31;
+	border-radius: 6px;
+	background-color: #e74c3c;
+	text-shadow: 0 -2px #bd3e31;
+}
+
+.playBtn:active {
+	-webkit-transform: translate(0, 2px);
+	-ms-transform: translate(0, 2px);
+	transform: translate(0, 2px);
+	/* border-bottom: 1px solid #bd3e31; */
+}
+
+.playBtn:hover {
+	background-color: tomato;
+}
+
+.selected {
+	background-color: #e74c3c;
+    border-bottom: 5px solid #bd3e31;
+	text-shadow: 0 -2px #bd3e31;
+}
+.selected:hover {
+	background-color: tomato;
+}
+.selected:active {
+	-webkit-transform: translate(0, 2px);
+	-ms-transform: translate(0, 2px);
+	transform: translate(0, 2px);
+	/* border-bottom: 1px solid #bd3e31; */
+}
+
+.hide{
+    display:none;
+}
+
+.ivory p{
+    position: relative;
+    top:70px;
+    left:40%;
+    text-shadow: none;
+    display:none;
+}
+
+</style>
 </head>
+<script>
+
+    let ac = window.ac || window.webkitac;
+    ac = new AudioContext();
+
+
+    class sound {
+
+        constructor(nt, freq) {
+
+            this.note = nt;
+            this.freq = freq;
+            this.osc = null;
+            this.amp = null;
+            this.playing = false;
+
+        }
+
+        setVolume() {
+
+            let { amp } = this;
+
+            amp = ac.createGain();
+            amp.gain.value = 0.5;
+            amp.connect(ac.createAnalyser());
+        }
+
+        initAudio() {
+
+            let { osc, setVolume, freq } = this;
+
+            this.osc = ac.createOscillator();
+            this.osc.frequency.value = freq;
+            this.osc.type = "sine";
+            this.setVolume(osc);
+            this.osc.connect(ac.destination);
+            this.osc.start(0);
+        }
+
+        stopAudio() {
+
+            let { osc, playing } = this;
+
+            osc.stop();
+            osc.disconnect();
+            osc = null;
+            playing = false;
+        }
+
+        playSounds(duration) {
+
+            let { playing } = this;
+
+            if (!playing) {
+                playing = true;
+                this.initAudio();
+                setTimeout(() => { this.stopAudio() }, duration);
+            }
+        }
+    };
+
+
+    class theory {
+
+        constructor(someKeys) {
+
+            const frequencies = { 
+              'c': 523.25,
+             'cs': 554.37,
+             'd': 587.33,
+             'ds': 622.25,
+             'e': 659.25,
+             'f': 698.46,
+             'fs': 739.99,
+             'g': 783.99,
+             'gs': 830.61,
+             'a': 880.00,
+             'as': 932.33,
+             'b': 987.77
+            }
+
+            const w = 2;
+            const h = 1;
+            const pattern = [w, w, h, w, w, w, h]
+
+            this.someKeys = someKeys;
+            this.chosen = [];
+            this.freqs = frequencies;
+
+            this.selected_note = 'c';
+            this.selectChords = 'maj';
+            this.selected_mode = 'ionian';
+            this.selected_int = 'scales';
+            
+            this.modes = {
+                'ionian': this.shiftArr(pattern, 0),
+                'dorian': this.shiftArr(pattern, 1),
+                'phrygian': this.shiftArr(pattern, 2),
+                'lydian': this.shiftArr(pattern, 3),
+                'myxolydian': this.shiftArr(pattern, 4),
+                'aeolian': this.shiftArr(pattern, 5),
+                'locrian': this.shiftArr(pattern, 6),
+            };
+
+            this.scaleDegrees = null
+        }
+
+
+        shiftArr(arr, number) {
+
+            const a = [].concat(arr);
+            for (let i = 0; i < number; i++) { a.push(a.shift()); }
+            return a
+        }
+
+
+        selector(arr, n) {
+
+            const i = (n + arr.length - 1) % arr.length;
+            return arr[i];
+        }
+
+
+        highlightKeys() {
+
+            const { chosen, someKeys } = this
+
+            someKeys
+                .filter(  item => chosen.indexOf(item.id) !== -1)
+                .forEach( item => item.classList.add("selected"));
+        }
+
+        render(){
+
+            const { someKeys, selected_int, scaleDegrees, chosen } = this 
+
+            someKeys.map(x => x.classList.remove("selected"))
+            selected_int == 'scales' ? this.buildMode().highlightKeys() : this.buildChord().highlightKeys()
+            selected_int == 'scales' ? console.log(scaleDegrees) : console.log(chosen)
+        }
+
+
+        buildChord() {
+
+            const { freqs, selector,selectChords,selected_note } = this
+
+            const _notes = Object.keys(freqs);
+            const _n = _notes.indexOf(selected_note) + 1;
+
+            const middle = selectChords === 'maj' ? 4 : selectChords === 'aug' ? 4 : 3
+            const end = selectChords === 'dim' ? 6 : selectChords === 'aug' ? 8 : 7
+
+            const i   = selector(_notes, _n);
+            const ii  = selector(_notes, _n + middle);
+            const iii = selector(_notes, _n + end);
+
+            this.chosen = [i, ii, iii];
+            return this;
+        }
+
+
+        buildMode() {
+            
+            const { freqs, selector,selected_note, selected_mode } = this
+
+            const _notes = Object.keys(freqs);
+            const chosenMode = this.modes[selected_mode];
+
+            let _n = _notes.indexOf(selected_note) + 1;
+
+            const baz = chosenMode.map((x, i) => {
+                const s = selector(_notes, _n)
+                _n = _n + chosenMode[i]
+                return s
+            })
+
+            const scaleDegrees = {
+                tonic: baz[0],
+                supertonic: baz[1],
+                mediant: baz[2],
+                subdominant: baz[3],
+                dominant: baz[4],
+                submediant: baz[5],
+                leadingTone: baz[6]
+            }
+
+            this.scaleDegrees = scaleDegrees
+            this.chosen = baz;
+            return this;
+        }
+    };
+
+
+    const playSelected =(t)=> {
+            console.log('playing');
+            t.chosen
+                .map(x => new sound(x, t.freqs[x]))
+                .forEach((x, i) => setTimeout(() => {
+                    x.playSounds(200);
+                }, i * 500))
+        }
+
+    function addHandlers(tggl,pianoKeys,t){
+
+        const selectRoot = document.getElementById('selectRoot')
+        const selectMode = document.getElementById('selectMode')
+        const selectChords = document.getElementById('selectChords')
+        const play = document.getElementById('play')
+
+        selectRoot.addEventListener('change', e => {
+             t.selected_note = e.target.value, t.render()
+             })
+
+        selectMode.addEventListener('change', e => {
+             t.selected_mode = e.target.value, t.render()
+             })
+
+        selectChords.addEventListener('change', e => {
+             t.selectChords = e.target.value, t.render()
+        })
+        
+        tggl[0].addEventListener("click", e => {
+             t.selected_int = e.target.value, 
+             t.render()
+             selectMode.classList.add("hide") 
+             selectChords.classList.remove("hide") 
+   
+        })
+
+        tggl[1].addEventListener("click", e => { 
+            t.selected_int = e.target.value, 
+            t.render()
+            selectMode.classList.remove("hide") 
+            selectChords.classList.add("hide") 
+        })
+
+        play.addEventListener("click", e => { playSelected(t)})
+
+        pianoKeys.map(x => x.addEventListener("click", e => {
+                let element = e.target;
+                let isSelected = element.classList.contains('selected') 
+
+                if(isSelected){
+                    let note = element.id;
+                    let freq = t.freqs[element.id];
+                    new sound(note, freq).playSounds(200)
+                }
+            })
+        )
+
+    }
+
+
+    function init() {
+
+        const tggl = document.getElementsByName('tggl')
+        const pianoKeys = [...document.getElementsByClassName("ivory")];
+
+        const t = new theory(pianoKeys);
+        
+        addHandlers(tggl,pianoKeys,t)
+        
+        t.render();
+        console.log('really?')
+
+    };
+
+    window.onload = init;
+
+</script>
 
 <body>
-    <div id="container">
+    <div class="set">
+
+        <div class="modal">
+            <div class="switch-title">Chords or Scales</div>
+            <div class="switchBtn">
+                <input type="radio" id="switch_left" name="tggl" value="chords" />
+                <label for="switch_left">Chords</label>
+                <input type="radio" id="switch_right" name="tggl" value="scales" checked />
+                <label for="switch_right">Scales</label>
+            </div>
+        </div>
+
+        <div class="modal">
+            <label for="selectRoot">Notes</label>
+            <select id="selectRoot">
+                <option value="c"> c </option>
+                <option value="cs"> c# </option>
+                <option value="d"> d </option>
+                <option value="ds"> d# </option>
+                <option value="e"> e </option>
+                <option value="f"> f </option>
+                <option value="fs"> f# </option>
+                <option value="g"> g </option>
+                <option value="gs"> g# </option>
+                <option value="a"> a </option>
+                <option value="as"> a# </option>
+                <option value="b"> b </option>
+            </select>
+        </div>
+
+        <div id="selectMode" class="modal">
+            <label for="selectMode">Modes</label>
+            <select id="selectMode">
+                <option value="ionian"> ionian </option>
+                <option value="dorian"> dorian </option>
+                <option value="phrygian"> phrygian </option>
+                <option value="lydian"> lydian </option>
+                <option value="myxolydian"> myxolydian </option>
+                <option value="aeolian"> aeolian </option>
+                <option value="locrian"> locrian </option>
+            </select>
+        </div>
+
+        <div id="selectChords" class="modal hide">
+            <label for="selectChords">Chords</label>
+            <select id="selectChords">
+                <option value="maj"> major </option>
+                <option value="min"> minor </option>
+                <option value="aug"> augmented </option>
+                <option value="dim"> diminished </option>
+            </select>
+        </div>
+
+
+        <div class="modal">
+            <ul id="keyboard">
+                <li id="c" class="ivory white">   <p> c  </p> </li>
+                <li id="cs" class="ivory black">  <p> c# </p> </li>
+                <li id="d" class="ivory white">   <p> d  </p> </li>
+                <li id="ds" class="ivory black">  <p> d# </p> </li>
+                <li id="e" class="ivory white">   <p> e  </p> </li>
+                <li id="f" class="ivory white">   <p> f  </p> </li>
+                <li id="fs" class="ivory black">  <p> f# </p> </li>
+                <li id="g" class="ivory white">   <p> g  </p> </li>
+                <li id="gs" class="ivory black">  <p> g# </p> </li>
+                <li id="a" class="ivory white">   <p> a  </p> </li>
+                <li id="as" class="ivory black">  <p> a# </p> </li>
+                <li id="b" class="ivory white">   <p> b  </p> </li>
+            </ul>
+        </div>
+        <div class="modal">
+
+            <a id="play" href="#" class="playBtn">Play</a>
+        </div>
     </div>
-    <script>
-        'usestrict;'
-
-        window.onload = function () {
-
-            // more feq
-                // 'F6':    1396.91,
-                // 'F#6':   1479.98,
-                // 'G6':    1567.98,
-                // 'G#6':   1661.22,
-                // 'A6':    1760.00,
-                // 'A#6':   1864.66,
-                // 'B6':    1975.53
-
-            const NOTES = {
-                65: { 
-                    freq: 440.00,
-                    note:'A4'
-                 },
-                87: { 
-                    freq: 466.16,
-                    note: 'A#4'
-                 },
-                83: { 
-                    freq: 493.88,
-                    note:'B4'
-                 },
-                68: { 
-                    freq: 523.25,
-                    note:'C5'
-                 },
-                82: { 
-                    freq: 554.37,
-                    note:'C#5'
-                 },
-                70: { 
-                    freq: 587.33,
-                    note:'D5'
-                 },
-                84: { 
-                    freq: 622.25,
-                    note:'D#5'
-                 },
-                71: { 
-                    freq: 659.25,
-                    note:'E5'
-                 },
-                72: { 
-                    freq: 698.46,
-                    note:'F5'
-                 },
-                85: { 
-                    freq: 739.99,
-                    note:'F#5'
-                 },
-                74: { 
-                    freq: 783.99,
-                    note:'G5'
-                 },
-                73: { 
-                    freq: 830.61,
-                    note:'G#5'
-                 },
-                75: { 
-                    freq: 880.00,
-                    note:'A5'
-                 },
-                79: { 
-                    freq: 932.33,
-                    note:'A#5'
-                 },
-                76: { 
-                    freq: 987.77,
-                    note:'B5'
-                 },
-                186: { 
-                    freq: 1046.50,
-                    note:'C6'
-                 },
-                219: { 
-                    freq: 1108.73,
-                    note:'C#6'
-                 },
-                222: { 
-                    freq: 1174.66,
-                    note:'D6'
-                 },
-                221: { 
-                    freq: 1244.51,
-                    note:'D#6'
-                 },
-                220: { 
-                    freq: 1318.51,
-                    note:'E6'
-                 }
-            };
-
-            var ac = window.ac || window.webkitac;
-                ac = new AudioContext();
-
-            var init = () => {
-         
-                window.addEventListener("keydown", checkKey);
-                window.addEventListener("keyup", checkKey);
-            };
-
-            function setVolume(osc){
-                    amp = ac.createGain();
-                    amp.gain.value = 0.5;
-                    amp.connect(ac.createAnalyser());
-            }
-
-            function initAudio(note) {
-                console.log(note)
-
-                var osc = ac.createOscillator();
-                    osc.frequency.value = note.freq;
-                    osc.type = "sine";
-                    setVolume(osc)
-                    osc.connect(ac.destination);
-                    osc.start(0);
-                    return osc
-            };
-
-            function stopAudio(note) {
-                note.osc.stop();
-                note.osc.disconnect();
-                note.osc = null;
-                note.playing = false;
-            }
-
-            // check key and play / switch off oscs
-            var checkKey = (e) => {
-
-                var sound = NOTES[e.keyCode],
-                    eventType = e.type;
-
-                if (sound) {
-                    if (eventType === "keydown" && !sound.playing) {
-                        sound.playing = true;
-                        sound.osc = initAudio(sound);
-                        document.getElementById('container').innerHTML = sound.note
-                    } else if (eventType === "keyup" && sound.playing) {
-                       stopAudio(sound) 
-                    }
-                }
-            };
-            init();
-
-        }
-
-    </script>
 </body>
 
 </html>
